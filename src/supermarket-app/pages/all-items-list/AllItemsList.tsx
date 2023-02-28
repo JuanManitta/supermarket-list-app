@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowBackIos } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import { MenuBar } from '../../../ui/MenuBar';
 
 const data = [
 
@@ -295,18 +296,7 @@ export const AllItemsList = () => {
 
 
         <Grid sx={{p:3}}>
-        <Paper sx={{ display:'flex', justifyContent:'space-evenly', bgcolor:'primary.main',
-           borderRadius:3, width:'100%', height:'50px'}}>
-
-            { menuIcons.map((item) => (
-              <motion.div style={{display:'flex'}} key={item.alt}>
-                <IconButton>
-                  <img style={{width:'40px'}} src={item.img} alt={item.alt} />
-                </IconButton>
-            </motion.div>
-            ))}
-            
-        </Paper>
+        <MenuBar/>
     </Grid>
     </motion.div>
   )
