@@ -1,9 +1,14 @@
 import { ArrowBackIos, ArrowForwardIos} from '@mui/icons-material';
-import { Grid, Typography, Paper, IconButton, Icon } from '@mui/material';
+import { Grid, Typography, Paper, IconButton } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MenuBar } from '../../../ui/MenuBar';
+import useStore from '../../../hooks/useStore';
+import { useDispatch } from 'react-redux';
+import { activeCategory } from '../../slice/supermarketSlice';
+
+
 
 
     const shoppingIcons =[
@@ -25,53 +30,6 @@ import { MenuBar } from '../../../ui/MenuBar';
   },
 
   ];
-    const categories = [
-    {
-      name: 'Meat',
-      img: '../home-meat.svg',
-      alt: 'meat',
-    },
-    {
-      name: 'Fish',
-      img: '../home-fish.svg',
-      alt: 'fish',
-    },
-    {
-      name: 'Fruit',
-      img: '../home-fruit-dark.svg',
-      alt: 'fruit',
-    },
-    {
-      name: 'Veggie',
-      img: '../home-veggie-dark.svg',
-      alt: 'food',
-    },
-    {
-      name: 'Dairy',
-      img: '../home-milk.svg',
-      alt: 'dairy',
-    },
-    {
-      name: 'Others',
-      img: '../home-others.svg',
-      alt: 'others',
-    },
-  ];
-    const menuIcons = [
-    {
-      img: '../shopp-icon.svg',
-      alt: 'shopping cart',
-    },
-    {
-      img: '../home-icon.svg',
-      alt: 'home',
-    },
-    {
-      img: '../menu-icon.svg',
-      alt: 'menu',
-    },
-  ];
-
 
 
 
@@ -79,6 +37,10 @@ import { MenuBar } from '../../../ui/MenuBar';
 
     const [width, setWidth] = useState(0)
     const carousel = useRef<HTMLInputElement>(null)
+
+    const { supermarketSlice: categories } = useStore();
+    const dispatch = useDispatch();
+    
 
     const navigate = useNavigate();
 
@@ -88,22 +50,21 @@ import { MenuBar } from '../../../ui/MenuBar';
         
     }, [])
 
-    const handleBackNavigation = (pathname: string) => {
+    const handleNavigation = (pathname: string, category?: string) => {
+      dispatch(activeCategory(category));
       navigate({pathname})
-    }
+    };
 
 
-    
-  
-  
+
   return (
     <>
       <motion.div style={{padding:'24px'}}
       initial={{opacity:0}}
       animate={{opacity:1}}>
-        <Paper elevation={0} sx={{bgcolor:'secondary.main', width:'100%', display:'grid', p:2, borderRadius:4, cursor:'pointer'}}>
+        <Paper elevation={0} sx={{bgcolor:'secondary.main', width:'100%', display:'grid', p:2, borderRadius:4}}>
           <motion.div>
-            <IconButton sx={{mb:1, p:0}} onClick={() => handleBackNavigation('/')}>
+            <IconButton sx={{mb:1, p:0}} onClick={() => handleNavigation('/')}>
               <motion.div
                 whileTap={{scale:0.8}}>
                 <ArrowBackIos fontSize='small'/>
@@ -134,17 +95,17 @@ import { MenuBar } from '../../../ui/MenuBar';
           </Grid>
         </Paper>
 
-        <Grid sx={{mt:6, mb:10}}>
+        <Grid sx={{mt:6, mb:14}}>
           <Grid container>
           <Typography variant='h6' sx={{fontWeight:'400', pl:1}}>
               Categories
           </Typography>
-          <IconButton onClick={() => handleBackNavigation('/all-items-list')}>
+          <IconButton onClick={() => handleNavigation('/all-items-list')}>
             <ArrowForwardIos fontSize='small' />
           </IconButton>
           </Grid>
 
-          <motion.div ref={carousel} style={{ overflow:'hidden', marginTop:'2rem', cursor:'grab'}}>
+          <motion.div ref={carousel} style={{ overflow:'hidden', marginTop:'2.7rem', cursor:'grab'}}>
             <motion.div 
                 drag="x" 
                 dragConstraints={{right: 0, left: -width}}
@@ -155,9 +116,9 @@ import { MenuBar } from '../../../ui/MenuBar';
               categories.map((item) => (
                 <motion.div style={{ minWidth:'9rem', padding:12}} key={item.name}>
                   <Paper elevation={0} sx={{width:'100%', height:'100%', borderRadius:5, 
-                    bgcolor:'secondary.main', p:2, }} onClick={() => handleBackNavigation('/categories/category')}>
-                    <img src={item.img} alt={item.alt} style={{width:'50px', marginLeft:'2rem'}} />
-                    <Typography fontWeight='400' sx={{mt:1}}>{item.name}</Typography>
+                    bgcolor:'secondary.main', p:2, }} onClick={() => handleNavigation('/categories/category', item.name)}>
+                    <img src={item.img} alt={item.name} style={{width:'50px', marginLeft:'2rem'}} />
+                    <Typography fontWeight='400' sx={{mt:1, textTransform:'capitalize'}}>{item.name}</Typography>
                   </Paper>
                 </motion.div>
                   )

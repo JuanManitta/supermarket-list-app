@@ -4,222 +4,9 @@ import { ArrowBackIos } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { MenuBar } from '../../../ui/MenuBar';
+import useStore from '../../../hooks/useStore';
+import { EmptyListMessage } from '../../../ui/EmptyListMessage';
 
-const data = [
-
-    {
-        name: 'Meat',
-        img: '../category-meat.svg',
-        alt: 'meat',
-        items: [
-            {
-                name: 'Beef',
-                done: false,
-                quantity: 1,
-              },
-              {
-                  name: 'Chicken',
-                  done: false,
-                  quantity: 1,
-              },
-              {
-                  name: 'Pork',
-                  done: false,
-                  quantity: 1,
-              },
-              {
-                  name: 'Lamb',
-                  done: false,
-                  quantity: 1,
-              },
-              {
-                  name: 'Turkey',
-                  done: false,
-                  quantity: 1,
-              },
-              {
-                  name: 'Ham',
-                  done: false,
-                  quantity: 1,
-              },
-              {
-                  name: 'Bacon',
-                  done: false,
-                  quantity: 1,
-              },
-              {
-                  name: 'Sausage',
-                  done: false,
-                  quantity: 1,
-              },
-
-          ],
-      },
-    {
-        name: 'Fish',
-        img: '../category-fish.svg',
-        alt: 'fish',
-        items: [
-        {
-              name: 'Salmon',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Tuna',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Cod',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Haddock',
-              done: false,
-              quantity: 1,
-          },
-          
-          
-
-      ],
-      },
-    {
-        name: 'Fish',
-        img: '../category-fish.svg',
-        alt: 'fish',
-        items: [
-        {
-              name: 'Salmon',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Tuna',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Cod',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Haddock',
-              done: false,
-              quantity: 1,
-          },
-          
-          
-
-      ],
-      },
-    {
-        name: 'Fish',
-        img: '../category-fish.svg',
-        alt: 'fish',
-        items: [
-        {
-              name: 'Salmon',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Tuna',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Cod',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Haddock',
-              done: false,
-              quantity: 1,
-          },
-          
-          
-
-      ],
-      },
-    {
-        name: 'Fish',
-        img: '../category-fish.svg',
-        alt: 'fish',
-        items: [
-        {
-              name: 'Salmon',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Tuna',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Cod',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Haddock',
-              done: false,
-              quantity: 1,
-          },
-          
-          
-
-      ],
-      },
-    {
-        name: 'Fish',
-        img: '../category-fish.svg',
-        alt: 'fish',
-        items: [
-        {
-              name: 'Salmon',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Tuna',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Cod',
-              done: false,
-              quantity: 1,
-          },
-          {
-              name: 'Haddock',
-              done: false,
-              quantity: 1,
-          },
-          
-          
-
-      ],
-      },
-];
-const menuIcons = [
-    {
-      img: '../shopp-icon.svg',
-      alt: 'shopping cart',
-    },
-    {
-      img: '../home-icon.svg',
-      alt: 'home',
-    },
-    {
-      img: '../menu-icon.svg',
-      alt: 'menu',
-    },
-  ];
 
 
 
@@ -227,7 +14,12 @@ const menuIcons = [
 export const AllItemsList = () => {
 
     const [height, setHeight] = useState(0)
+    const [emptyList, setEmptyList] = useState(true);
+    
+
     const carousel = useRef<HTMLInputElement>(null)
+
+    const { supermarketSlice: categories } = useStore();
 
     const navigate = useNavigate();
     const handleBackNavigate = () => {
@@ -238,9 +30,16 @@ export const AllItemsList = () => {
         if (carousel.current) {
             setHeight(carousel.current.scrollHeight - carousel.current.offsetHeight)
         }
-    }, [])
+    }, [])    
+    
 
+    const categoriesWithProducts = categories.filter(category => category.items.length > 0);
 
+    useEffect(() => {
+        setEmptyList(categoriesWithProducts.length === 0 ? true : false);
+    }, [categoriesWithProducts])
+
+    
 
 
 
@@ -258,44 +57,46 @@ export const AllItemsList = () => {
                     <ArrowBackIos fontSize='small'/>
                 </IconButton>
             </Grid>
-            <Grid xs={11}>
+            <Grid item xs={11}>
                 <Typography variant='h6' sx={{textAlign:'center', mr:3}}>
                     Supermarket List
                 </Typography>
             </Grid>
         </Grid>
         <Grid>
+            
         <motion.div ref={carousel} style={{height:'420px', overflow:'hidden'}} >
-            <motion.div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'1rem', padding:'24px'}}
+            {
+            emptyList 
+            ? <EmptyListMessage/> 
+            : <motion.div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'1rem', padding:'24px'}}
             drag="y"
             dragConstraints={{bottom:0, top: -height}}>
-
-            { data.map(item => (
-                <motion.div>
+                {categoriesWithProducts.map( category => (
+                <motion.div key={category.name}>
                     <Paper elevation={0} sx={{bgcolor:'secondary.main', width:'100%', display:'grid', p:2, borderRadius:5}}>
                         <Paper elevation={0} sx={{bgcolor:'white', width:'100%', borderRadius: 2, mb:1, boxShadow: '1px 1px 6px 1px rgb(221,221,221)'}}>
                             <Typography sx={{fontSize:'1rem', textAlign:'center'}}>
-                                {item.name}
+                                {category.name}
                             </Typography>
-                          
                         </Paper>
-                        {
-                            item.items.slice(0,4).map(item => (
-                                <Grid sx={{display:'flex', justifyContent:'space-between'}}>
-                                <Typography sx={{fontSize:'0.9rem'}}>{item.name}</Typography>
-                                <Typography sx={{fontSize:'0.8rem'}}>{item.quantity}</Typography>
+                            {
+                            category.items.slice(0,4).map(product => (
+                                <Grid sx={{display:'flex', justifyContent:'space-between'}} key={product.id}>
+                                <Typography sx={{fontSize:'0.9rem'}}>{product.name}</Typography>
+                                <Typography sx={{fontSize:'0.8rem'}}>{product.quantity}</Typography>
                             </Grid>
                            ))}
-                        
                     </Paper>
                 </motion.div>
-            ))}
+            ))
+            }
             </motion.div>
+            }
         </motion.div>
+
         </Grid>
-
-
-        <Grid sx={{p:3}}>
+        <Grid sx={{p:3, mt:5}}>
         <MenuBar/>
     </Grid>
     </motion.div>

@@ -109,7 +109,7 @@ export const Home = () => {
         </Grid>
         </Grid>
         <Paper elevation={0} sx={{width:'100%', height:'50px', borderRadius:4,
-        bgcolor:'primary.main', mt:4, display:'flex', justifyContent:'space-evenly'}}>
+        bgcolor:'primary.main', mt:10, display:'flex', justifyContent:'space-evenly'}}>
            {homeFooter.map((item) => (
            <motion.div style={{display:'flex'}} key={item.alt}
                whileHover={{scale:1.3}}>

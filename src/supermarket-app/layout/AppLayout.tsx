@@ -20,7 +20,7 @@ export const AppLayout = ({children}: {children: ReactNode}) => {
       <motion.div
        initial={{opacity:0}}
        animate={{opacity:1, transition:{delay:0.5}}}>
-        <Paper elevation={4} sx={{p:0, width:'360px', height:'600px', borderRadius:10}}>
+        <Paper elevation={4} sx={{p:0, width:'360px', height:'650px', borderRadius:10}}>
 
             {children}
 
