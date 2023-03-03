@@ -1,16 +1,17 @@
-import { uuid } from "uuidv4"
 import { Item } from "../types/Types"
+import { v4 as uuid } from 'uuid';
 
 
 
 
 
 
-export const createItem = (name: string, price: number, quantity: number) => {
+export const createItem = (name: string, quantity: number, category: string) => {
     const item: Item = {
         name: name,
-        price: price,
+        // price: price,
         quantity: quantity,
+        category: category,
         done: false,
         id: uuid(),
     }

@@ -1,11 +1,12 @@
-import { ArrowBackIos } from '@mui/icons-material';
-import { Grid, Typography, Paper, IconButton, Checkbox } from '@mui/material';
+import { Add, ArrowBackIos } from '@mui/icons-material';
+import { Grid, Typography, Paper, IconButton, Checkbox, Fab } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { MenuBar } from '../../../../ui/MenuBar';
 import useStore from '../../../../hooks/useStore';
 import { EmptyListMessage } from '../../../../ui/EmptyListMessage';
+import { AddItemModal } from '../../../../ui/AddItemModal';
 
 
 
@@ -14,11 +15,15 @@ import { EmptyListMessage } from '../../../../ui/EmptyListMessage';
 
 export const Category = () => {
 
-    const [emptyList, setEmptyList] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
+    const [emptyList, setEmptyList] = useState(true);
     const { supermarketSlice } = useStore();
     
     const category = supermarketSlice.filter((category) => category.isActive === true);
     const categoryProducts = category[0].items; 
+
+    
+    
     
     
     const navigate = useNavigate();
@@ -39,13 +44,21 @@ export const Category = () => {
     }, [categoryProducts])
 
 
-
-
     useEffect(() => {
         if (carousel.current) {
             setHeight(carousel.current.scrollHeight - carousel.current.offsetHeight);
         }
     }, []);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
+    const handleAddItem = () => {
+        setIsOpen(true);
+    };
+
+
     
 
   
@@ -54,7 +67,7 @@ export const Category = () => {
   <motion.div
     initial={{opacity:0}}
     animate={{opacity:1}}>
-    <Grid >
+    <Grid sx={{mb:6}}>
         <Paper elevation={0} sx={{bgcolor:'secondary.main', width:'100%', display:'grid', p:2,
          borderRadius:10}}>
         <Grid container>
@@ -82,7 +95,7 @@ export const Category = () => {
     </Grid>
 
 
-    <motion.div ref={carousel} style={{ height: '350px',overflow:'hidden', cursor:'grab'}}>
+    <motion.div ref={carousel} style={{ position:'relative', height: '350px',overflow:'hidden', cursor:'grab'}}>
     { emptyList 
         ? <EmptyListMessage /> 
         :
@@ -112,11 +125,15 @@ export const Category = () => {
             </Paper>
             ))}
         </motion.div> }
+        <Fab size='small' color='primary' sx={{position:'absolute', bottom:'4%', right:'8%' }} onClick={handleAddItem}>
+            <Add sx={{color:'secondary.main'}}/>
+        </Fab>
     </motion.div>
 
-    <Grid sx={{p:3, mt:5}}>
+    <Grid sx={{p:3}}>
         <MenuBar/>
     </Grid>
+    <AddItemModal isOpen={isOpen} closeModal={closeModal} category={category[0].name}/>
     </motion.div>
 
   )

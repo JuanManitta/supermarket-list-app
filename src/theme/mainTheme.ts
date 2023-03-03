@@ -4,18 +4,17 @@ import { createTheme } from "@mui/material";
 
 export const mainTheme = createTheme({
     palette: {
+        
         primary: {
             main: "#4dbe86",
         },
         secondary: {
             main: "#d6f0e3",
         },
-        background: {
-            default: "#b1e2ca",
-        },
         info: {
             main: "#a4dec1",
         },
+        
     },
     components: {
         MuiIconButton: {
@@ -38,7 +37,7 @@ export const mainTheme = createTheme({
        
     },
     typography: {
-        fontFamily: "'Rubik', sans-serif",
+        fontFamily: "'Poppins', sans-serif",
         fontSize: 16,
     },
 });

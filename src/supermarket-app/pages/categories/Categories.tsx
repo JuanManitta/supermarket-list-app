@@ -72,7 +72,7 @@ import { activeCategory } from '../../slice/supermarketSlice';
             </IconButton>
           </motion.div>
           <Typography  sx={{color:'black', textAlign:'left', mb:1}}>
-            Shopping List
+            Supermarket List
           </Typography>
           <Grid container>
             <Grid item xs={8}>
@@ -95,7 +95,7 @@ import { activeCategory } from '../../slice/supermarketSlice';
           </Grid>
         </Paper>
 
-        <Grid sx={{mt:6, mb:14}}>
+        <Grid sx={{mt:6, mb:16}}>
           <Grid container>
           <Typography variant='h6' sx={{fontWeight:'400', pl:1}}>
               Categories
@@ -117,9 +117,11 @@ import { activeCategory } from '../../slice/supermarketSlice';
                 <motion.div style={{ minWidth:'9rem', padding:12}} key={item.name}>
                   <Paper elevation={0} sx={{width:'100%', height:'100%', borderRadius:5, 
                     bgcolor:'secondary.main', p:2, }} onClick={() => handleNavigation('/categories/category', item.name)}>
+
                     <img src={item.img} alt={item.name} style={{width:'50px', marginLeft:'2rem'}} />
-                    <Typography fontWeight='400' sx={{mt:1, textTransform:'capitalize'}}>{item.name}</Typography>
+                    <Typography fontWeight='400' sx={{mt:1, textTransform:'capitalize', fontSize:'1rem'}}>{item.name}</Typography>
                   </Paper>
+
                 </motion.div>
                   )
                   )}

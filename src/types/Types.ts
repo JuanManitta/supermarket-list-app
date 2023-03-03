@@ -3,8 +3,9 @@
 
 export interface Item {
     name: string,
-    price: number,
+    // price: number,
     quantity: number,
+    category: string,
     done: boolean,
     id: string,
 

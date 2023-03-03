@@ -31,18 +31,18 @@ export const EmptyListMessage = () => {
 
   return (
     <Grid sx={{p:3}}>
-        <Typography variant="h6" component="h2" sx={{textAlign: 'center', mt: 6}}>
+        <Typography variant="h6" component="h2" sx={{textAlign: 'center'}}>
             No hay productos en la lista
         </Typography>
         <Typography variant="h6"  sx={{textAlign: 'center', mt: 1, color:'primary.main', fontSize:'1.2rem'}}>
             Empezá a agregar productos
         </Typography>
         
-        <motion.div style={{display:'flex', justifyContent:'center', marginTop:'3rem'}}
+        <motion.div style={{display:'flex', justifyContent:'center', marginTop:'1rem'}}
             animate={{y, opacity}}
             transition={transition}
             onAnimationComplete={handleAnimationComplete}>
-            <img style={{width:'50px'}} src={productImage} alt="" />
+            <img style={{width:'40px'}} src={productImage} alt="" />
         </motion.div>
 
         <motion.div style={{display:'flex', justifyContent:'center', marginTop:'2rem'}}>

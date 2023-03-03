@@ -65,7 +65,7 @@ export const AllItemsList = () => {
         </Grid>
         <Grid>
             
-        <motion.div ref={carousel} style={{height:'420px', overflow:'hidden'}} >
+        <motion.div ref={carousel} style={{height:'400px', overflow:'hidden', marginTop:'4rem'}} >
             {
             emptyList 
             ? <EmptyListMessage/> 
@@ -96,7 +96,7 @@ export const AllItemsList = () => {
         </motion.div>
 
         </Grid>
-        <Grid sx={{p:3, mt:5}}>
+        <Grid sx={{p:3}}>
         <MenuBar/>
     </Grid>
     </motion.div>
